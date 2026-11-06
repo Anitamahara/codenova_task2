@@ -56,7 +56,7 @@ COUNTRY_FIXES = {"EIRE": "Ireland", "RSA": "South Africa"}
 # Plain-language reason shown for each removal rule in the report.
 REASONS = {
     "unreadable_value": "Date, Quantity or UnitPrice could not be read as a valid value, so the row cannot be used in any calculation.",
-    "exact_duplicate": "Every column matches an earlier row, so keeping it would count the same sale twice.",
+    "exact_duplicate": "Every column except the spelling of Description matches an earlier row, so keeping it would count the same sale twice.",
     "cancelled_invoice": "Invoice number starts with C, which marks a cancellation and not a sale.",
     "zero_or_negative_price": "Price is 0 or below, so this is a stock adjustment or note and not a sale.",
     "not_positive_quantity": "Quantity is 0 or below on a non-cancelled invoice, so nothing was sold.",
@@ -96,7 +96,8 @@ def load_raw(path):
 
 
 def parse_types(raw):
-    """Turn the text columns into real numbers and dates. Bad values become NaN."""
+    """Turn the text columns into real numbers a
+    nd dates. Bad values become NaN."""
     df = raw.copy()
     df["Quantity"] = pd.to_numeric(df["Quantity"], errors="coerce")
     df["UnitPrice"] = pd.to_numeric(df["UnitPrice"], errors="coerce")
@@ -231,7 +232,10 @@ def clean(parsed):
         })
 
     remove(df["InvoiceDate"].isna() | df["Quantity"].isna() | df["UnitPrice"].isna(), "unreadable_value")
-    remove(df.duplicated(subset=EXPECTED_COLUMNS, keep="first"), "exact_duplicate")
+    # Description is ignored here because one product can be spelled two ways.
+    # Those rows become exact copies later, when each StockCode gets one name.
+    same_sale = [c for c in EXPECTED_COLUMNS if c != "Description"]
+    remove(df.duplicated(subset=same_sale, keep="first"), "exact_duplicate")
 
     is_cancel = df["InvoiceNo"].str.startswith("C").fillna(False).astype(bool)
     cancellations = df[is_cancel].copy()

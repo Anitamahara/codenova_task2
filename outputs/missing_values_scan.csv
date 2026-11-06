@@ -1,0 +1,9 @@
+column,missing_rows,missing_percent,data_type_after_parsing
+InvoiceNo,0,0.0,object
+StockCode,0,0.0,object
+Description,1454,0.27,object
+Quantity,0,0.0,int64
+InvoiceDate,0,0.0,datetime64[ns]
+UnitPrice,0,0.0,float64
+CustomerID,135080,24.93,float64
+Country,0,0.0,object

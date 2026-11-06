@@ -1,0 +1,23 @@
+Metric,Before,After
+Rows,541909,519718
+Total missing cells,136534,131387
+Missing Description,1454,0
+Missing CustomerID,135080,131387
+Exact duplicate rows,5268,0
+Rows with Quantity <= 0,10624,0
+Rows with UnitPrice <= 0,2517,0
+Quantity mean,9.55,10.27
+Quantity median,3.0,4.0
+Quantity std,218.08,37.12
+Quantity min,-80995,1
+Quantity max,80995,4800
+UnitPrice mean,4.61,3.26
+UnitPrice median,2.08,2.08
+UnitPrice std,96.76,4.18
+UnitPrice min,-11062.06,0.04
+UnitPrice max,38970.0,649.5
+Total revenue,9747747.93,9820886.11
+Unique invoices,25900,19647
+Unique stock codes,4070,3793
+Unique customers,4372,4324
+Unique countries,38,38
